@@ -77,6 +77,7 @@ Now we want to make the controller nicknamed `AWS` into our Ansible Controller a
 >[db]
 >192.168.33.11 ansible_connection=ssh ansible_ssh_user=vagrant ansible_ssh_pass=vagrant
 >
+>## This one is the Ansible server so it is commented out
 >[aws]
 >192.168.33.12 ansible_connection=ssh ansible_ssh_user=vagrant ansible_ssh_pass=vagrant
 
