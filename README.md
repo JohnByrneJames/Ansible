@@ -93,7 +93,7 @@ Now we want to make the controller nicknamed `AWS` into our Ansible Controller a
 
 Now we pinged all the VMs and got a response saying **SUCCESS**.
 
-![This is the output](../../Images/Ansible_Ping_all.PNG)
+![This is the output](Images/Ansible_Ping_all.PNG)
 
 _This is what it looked like when I pinged the two newly added hosts **DB** and **WebApp**_
 
