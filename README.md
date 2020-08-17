@@ -1,16 +1,9 @@
-## **Ansible**
+# **Ansible**
 
 * **Configuration management with Ansible**
 * **IAC Infrastructure as code**
 * **Multi Server Environment**
 
-First we went through the videos we had to record over the weekend, however I did not have anything significant to show here.
-
-I plan to do the videos after the lesson today as I did not find the time on the weekend ~
-
-The Videos will be available to view [**HERE**]()
-
-> 11:00 AM Starting to look at Ansible [Early-Morning]
 
 # Infrastructure as code (IAC)
 
