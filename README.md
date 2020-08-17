@@ -72,11 +72,13 @@ Now we want to make the controller nicknamed `AWS` into our Ansible Controller a
 * Now we go into the `hosts` file and added our `app` and `db` VMs:
 
 >[web]
-192.168.33.10 ansible_connection=ssh ansible_ssh_user=vagrant ansible_ssh_pass=vagrant
-[db]
-192.168.33.11 ansible_connection=ssh ansible_ssh_user=vagrant ansible_ssh_pass=vagrant
-[aws]
-192.168.33.12 ansible_connection=ssh ansible_ssh_user=vagrant ansible_ssh_pass=vagrant
+>192.168.33.10 ansible_connection=ssh ansible_ssh_user=vagrant ansible_ssh_pass=vagrant
+>
+>[db]
+>192.168.33.11 ansible_connection=ssh ansible_ssh_user=vagrant ansible_ssh_pass=vagrant
+>
+>[aws]
+>192.168.33.12 ansible_connection=ssh ansible_ssh_user=vagrant ansible_ssh_pass=vagrant
 
 * Now we are able to SSH into the `App` and `DB` using **SSH** like so, and entering **Vagrant** as the password.
 
