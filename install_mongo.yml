@@ -1,0 +1,71 @@
+
+---
+
+- hosts: web
+
+  gather_facts: yes
+
+  become: true
+
+  tasks:
+  - name: Remove Pm2 Process if it is running still
+    command: pm2 kill
+    ignore_errors: True
+    become: yes
+
+  - name: Update Server
+    command: apt update -y
+
+  - name: Upgrade Server
+    command: apt upgrade -y
+
+  - name: Install nodejs dependencies
+    command: apt-get install software-properties-common -y
+    ignore_errors: True
+
+  - name: download nodejs dependencies
+    shell: curl -sL https://deb.nodesource.com/setup_12.x | sudo -E bash -
+    ignore_errors: True
+
+  - name: Install nodejs
+    apt: pkg=nodejs state=present
+
+  - name: Install nginx
+    apt: pkg=nginx state=present
+  
+  - name: Install NPM
+    shell: npm i
+    args:
+      chdir: app/
+
+  - npm:
+      name: pm2
+      global: yes
+
+  - name: Update Server
+    command: apt update -y
+
+  - name: Upgrade Server
+    command: apt upgrade -y
+
+ # - name: remove old default file
+ #   shell: rm /etc/nginx/sites-available/default
+
+  - name: Copy file into new location
+    copy:
+      src: /home/vagrant/environment/nodeapp.conf
+      dest: /etc/nginx/sites-available/default
+      mode: '600'
+
+  - name: run -t on nginx
+    shell: nginx -t
+
+  - name: restart nginx
+    service:
+      name: nginx
+      state: restarted
+
+  - name: Run App with pm2
+    shell: pm2 start app.js
+    args:
+      chdir: app/

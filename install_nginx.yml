@@ -1,0 +1,48 @@
+---
+
+- hosts: web
+
+  gather_facts: yes
+
+  become: true
+
+  tasks:
+  - name: Update Server
+    command: apt update -y
+
+  - name: Upgrade Server
+    command: apt upgrade -y
+
+  - name: Install Git
+    apt: pkg=git state=present
+
+  - name: Install nodejs dependencies
+    command: apt-get install software-properties-common -y
+    ignore_errors: True
+
+  - name: download nodejs dependencies
+    shell: curl -sL https://deb.nodesource.com/setup_12.x | sudo -E bash -
+    ignore_errors: True
+
+  - name: Install nodejs
+    apt: pkg=nodejs state=present
+
+  - name: Install nginx
+    apt: pkg=nginx state=present
+
+  - name: Update Server
+    command: apt update -y
+
+  - name: Upgrade Server
+    command: apt upgrade -y
+
+  #- name: remove old default file
+   # shell: rm /etc/nginx/sites-available/default
+
+  - name: link new defualt file up
+    shell: cp /home/ubuntu/environment/app/nginx.default /etc/nginx/sites-available/default
+
+  - name: restart nginx
+    service:
+      name: nginx
+      state: restarted

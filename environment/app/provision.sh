@@ -41,5 +41,3 @@ sudo cp /home/ubuntu/environment/nginx.default /etc/nginx/sites-available/defaul
 sudo nginx -t
 sudo apt-get update -y
 sudo systemctl restart nginx
-
-sudo 
