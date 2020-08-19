@@ -1,0 +1,2 @@
+PATH="/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games"
+DB_HOST=mongodb://vagrant@192.168.33.11:27017/posts?authSource=admin
