@@ -209,3 +209,7 @@ One thing to keep in mind with playbooks, is that they are rather unforgiving wh
 
 - move over environment folder : ``` scp -r /home/vagrant/environment/ vagrant@192.168.33.10:/home/vagrant/
  ```
+
+ - move over db config : ```scp -r /home/vagrant/db/ vagrant@192.168.33.11:/home/vagrant/environment```
+
+ - check mongodb is running : ```ansible db -m shell -a "systemctl status mongod"```
