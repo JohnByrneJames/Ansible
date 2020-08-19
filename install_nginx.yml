@@ -1,4 +1,3 @@
-
 ---
 
 - hosts: web
@@ -19,6 +18,27 @@
   - name: Upgrade Server
     command: apt upgrade -y
 
+  - name: Install Nginx
+    apt: pkg=nginx state=present
+
+  - name: Remove Nginx default file
+    file:
+      path: /etc/nginx/sites-enabled/default
+      state: absent
+
+  - name: Copy file into new location
+    copy:
+      src: /home/vagrant/environment/nodeapp.conf
+      dest: /etc/nginx/sites-enabled/default
+      mode: '666'
+
+  - name: Create Link
+    file:
+      src: /etc/nginx/sites-enabled/default
+      dest: /etc/nginx/sites-available/default
+      state: link
+      force: true
+
   - name: Install nodejs dependencies
     command: apt-get install software-properties-common -y
     ignore_errors: True
@@ -30,15 +50,16 @@
   - name: Install nodejs
     apt: pkg=nodejs state=present
 
-  - name: Install nginx
-    apt: pkg=nginx state=present
-  
+  - name: export db host variable for database
+    shell: echo 'export DB_HOST="mongodb://vagrant@192.168.33.11:27017/posts?authSource=admin' >> ~/.bashrc
+
   - name: Install NPM
     shell: npm i
     args:
       chdir: app/
 
-  - npm:
+  - name: install PM2
+    npm:
       name: pm2
       global: yes
 
@@ -55,7 +76,7 @@
     copy:
       src: /home/vagrant/environment/nodeapp.conf
       dest: /etc/nginx/sites-available/default
-      mode: '600'
+      mode: '666'
 
   - name: run -t on nginx
     shell: nginx -t
@@ -65,7 +86,13 @@
       name: nginx
       state: restarted
 
-  - name: Run App with pm2
-    shell: pm2 start app.js
-    args:
-      chdir: app/
+  - name: set up app
+    shell: |
+      cd app/
+      npm install
+      node seeds/seed.js
+      pm2 kill
+      pm2 start app.js
+    environment:
+      DB_HOST: mongodb://vagrant@192.168.33.11:27017/posts?authSource=admin
+    become_user: root

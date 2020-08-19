@@ -205,11 +205,18 @@ One thing to keep in mind with playbooks, is that they are rather unforgiving wh
 
 ~ planning steps
 
-- move over app folder : ```scp -r app/ vagrant@192.168.33.10:/home/vagrant/```
+- ssh into app: ```ssh vagrant@192.168.33.10```
+
+- ssh into db: ```ssh vagrant@192.168.33.10```
+
+- move over app folder : ```scp -r /home/vagrant/app/ vagrant@192.168.33.10:/home/vagrant/```
 
 - move over environment folder : ``` scp -r /home/vagrant/environment/ vagrant@192.168.33.10:/home/vagrant/
  ```
 
- - move over db config : ```scp -r /home/vagrant/db/ vagrant@192.168.33.11:/home/vagrant/environment```
+ - move over db config : ```scp -r /home/vagrant/db vagrant@192.168.33.11:/home/vagrant/environment```
 
  - check mongodb is running : ```ansible db -m shell -a "systemctl status mongod"```
+
+ - Env Variable for App: ```export DB_HOST="mongodb://vagrant@192.168.33.11:27017/posts?authSource=admin"
+```

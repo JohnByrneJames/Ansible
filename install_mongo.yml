@@ -1,36 +1,35 @@
-
 ---
-
-- hosts: web
+- hosts: db
 
   gather_facts: yes
 
-  become: true
+  become: yes
 
   tasks:
-  - name: MongoDB - Import public key
-    apt_key:
-      keyserver: hkp://keyserver.ubuntu.com:80
-      id: EA312927
+  - name: install mongodb
+    shell: apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv D68FA50FEA312927
 
-  - name: MongoDB - Add repository
-    apt_repository:
-      filename: '/etc/apt/sources.list.d/mongodb-org-3.2.list'
-      repo: 'deb https://repo.mongodb.org/apt/ubuntu xenial/mongodb-org/3.2 multiverse'
-      state: present
-      update_cache: yes
+  - name: echo repo location
+    shell: echo "deb https://repo.mongodb.org/apt/ubuntu xenial/mongodb-org/3.2 multiverse" | sudo tee /etc/apt/sources.list.d/mongod$
 
-  - name: Update sources list
-    command: tee /etc/apt/sources.list.d/mongodb-org-3.2.list
-    become: true
+  - name: Update Server
+    command: apt update -y
 
-  - name: MongoDB - Install MongoDB
-    apt:
-      name: mongodb-org
-      state: present
-      update_cache: yes
+  - name: Upgrade Server
+    command: apt upgrade -y
 
-  - name: MongoDB - Running state
-    service:
-      name: mongod
-      state: started
+  - name: Install Mongodb
+    shell: apt install -y mongodb-org=3.2.20 mongodb-org-server=3.2.20 mongodb-org-shell=3.2.20 mongodb-org-mongos=3.2.20 mongodb-org$
+    ignore_errors: yes
+
+  - name: remove config file
+    shell: rm /etc/mongod.conf
+
+  - name: link config file
+    shell: ln -s /home/vagrant/environment/mongod.conf /etc/mongod.conf
+
+  - name: restart mongod
+    service: name=mongod state=restarted
+
+  - name: enable mongod
+    service: name=mongod state=started enabled=yes
