@@ -203,7 +203,7 @@ Nano install_playbook.yml
 
 One thing to keep in mind with playbooks, is that they are rather unforgiving when it comes to syntax. The indentation is crucial or it will throw errors. A **Tip** is to always use spaces and never tabs as they aren't recognised in this langauge.
 
-~ planning steps
+## ~~ planning steps ~~
 
 - ssh into app: ```ssh vagrant@192.168.33.10```
 
@@ -219,4 +219,32 @@ One thing to keep in mind with playbooks, is that they are rather unforgiving wh
  - check mongodb is running : ```ansible db -m shell -a "systemctl status mongod"```
 
  - Env Variable for App: ```export DB_HOST="mongodb://vagrant@192.168.33.11:27017/posts?authSource=admin"
+```
+
+- Add Environment variable to bashrc
+
+```bash
+ echo "export DB_HOST=mongodb://vagrant@192.168.33.11:27017/posts?authSource=admin">>~/.bashrc
+
+ echo "DB_HOST=mongodb://vagrant@192.168.33.11:27017/posts?authSource=admin">>~/.profile
+
+  echo "DB_HOST=mongodb://vagrant@192.168.33.11:27017/posts?authSource=admin">>/etc/environment
+
+  source ~/.bashrc
+
+  source ~/.profile
+```
+
+Found useful command to reveal numeric notation permissions of a file
+
+```bash
+stat -c %a ~/.profile
+```
+
+Created my own profile, bashrc and environment file so I could make my environment variables persistently exist inside the web application.
+
+```bash
+sudo touch .profile >> "DB_HOST=mongodb://vagrant@192.168.33.11:27017/posts?authSource=admin"
+
+chmod 644 .profile
 ```
