@@ -1,0 +1,48 @@
+# This will only work if the associated folders are in the home/vagrant directory of the VM
+# E.G. >> .profile, .bashrc and environment
+---
+
+- hosts: web
+
+  gather_facts: yes
+
+  become: yes
+
+  tasks:
+  - name: Remove .bashrc from VM
+    file:
+      path: /home/vagrant/.bashrc
+      state: absent
+
+  - name: Copy in replacement .bashrc file
+    copy:
+      src: /home/vagrant/variable_files/.bashrc
+      dest: /home/vagrant/
+      mode: '644'
+
+  - name: Remove .profile from VM
+    file:
+      path: /home/vagrant/.profile
+      state: absent
+
+  - name: Copy in replacement .profile file
+    copy:
+      src: /home/vagrant/variable_files/.profile
+      dest: /home/vagrant/
+      mode: '644'
+
+  - name: Remove environment from VM
+    file:
+      path: /etc/environment
+      state: absent
+
+  - name: Copy in replacement environment file
+    copy:
+      src: /home/vagrant/variable_files/environment
+      dest: /etc/
+      mode: '644'
+
+  - name: Reboot machine to apply new environment variables
+    reboot:
+      reboot_timeout: 1800
+      test_command: ping -c 4 192.168.33.10
