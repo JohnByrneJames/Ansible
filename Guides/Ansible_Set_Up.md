@@ -78,7 +78,7 @@ We are now going to configure our Ansible controller so it can communicate with 
 
 First to test if we can get a connection, we are going to ping the servers using the IPv4 addresses they were set in the `Vagrant File` on your OS.
 
-![Image_of_VagrantFile](Images/Ansible_VagrantFile_IP.PNG)
+![Image_of_VagrantFile](../Images/Ansible_VagrantFile_IP.PNG)
 
 _**These will be important in the next couple of steps too so keep this open.**_
 
@@ -97,7 +97,7 @@ ansible 192.168.33.10 -m ping
 
 You should get a reponse similar to one below, as it cannot actually connect yet as it is not a trusted host, so lets fix that..
 
-![Step1_setUp_Ansible](Images/Bash_Ansible_Set_up_1.PNG)
+![Step1_setUp_Ansible](../Images/Bash_Ansible_Set_up_1.PNG)
 
 To do that we need to add these hosts into our hosts file, so lets navigate in and add them as recognised servers.
 
@@ -120,7 +120,7 @@ Now you are inside you will see a lot of placeholder text to explain how to use 
 
 ```
 
-![Step2_SetUp_Ansible](Images/Bash_Ansible_Set_up_2.PNG)
+![Step2_SetUp_Ansible](../Images/Bash_Ansible_Set_up_2.PNG)
 
 Now lets try ping again, this time with the all command.
 
@@ -129,7 +129,7 @@ Now lets try ping again, this time with the all command.
 ansible all -m ping
 ```
 
-![Step3_SetUp_Ansible](Images/Bash_Ansible_Set_up_3.PNG)
+![Step3_SetUp_Ansible](../Images/Bash_Ansible_Set_up_3.PNG)
 
 This should has FAILED except it is now asking us to verify these hosts, to do this we need to SSH into them at least one using the password we set inside the hosts file, in this case its _ansible_ssh_pass=**vagrant**_.
 
@@ -153,7 +153,7 @@ ansible all -m ping
 
 This time you should see this output!
 
-![Step4_SetUp_Ansible](Images/Bash_Ansible_Set_up_4.PNG)
+![Step4_SetUp_Ansible](../Images/Bash_Ansible_Set_up_4.PNG)
 
 It was a **SUCCESS** this means that ansible has got a connection with the two other VMs we have running on our Oracle Virtualbox.
 
