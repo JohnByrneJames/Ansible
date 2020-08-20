@@ -26,3 +26,4 @@ touch aws_pb.yml
 _**Create Ansible Vault File to store the AWS Access and Secret Keys**_
 
 **vagrant** as password for vault
+
