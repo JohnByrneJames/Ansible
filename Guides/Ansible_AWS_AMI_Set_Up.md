@@ -23,7 +23,40 @@ cd AWS_Ansible
 touch aws_pb.yml
 ```
 
+_**Install Ansible and the EC2 Module dependencies**_
+
+```bash
+sudo apt install python
+sudo apt install python-pip
+pip install boto boto3 ansible
+```
+
 _**Create Ansible Vault File to store the AWS Access and Secret Keys**_
 
-**vagrant** as password for vault
+**vagrant** as password for vault for now. We are going to put the EC2 secret and access keys we have on our AWS console. These are confidential!
+
+```bash
+# Create vault
+ansible-vault create group_vars/all_pass.yml 
+
+# Set Password
+$ New Vault Password:
+$ Confirm New Vault Password:
+
+# Inside vault add two lines
+ec2_access_key: AAAAAAAAAAAAAABBBBBBBBBBBB                                      
+ec2_secret_key: afjdfadgf$fgajk5ragesfjgjsfdbtirhf
+
+# Exit Vim editor (ctrl + :) then type below
+:x
+
+# Tree to see the structure of your directories and files.
+Tree
+
+AWS_Ansible/
+├── group_vars
+│   └── all
+│       └── pass.yml
+└── playbook.yml
+```
 
