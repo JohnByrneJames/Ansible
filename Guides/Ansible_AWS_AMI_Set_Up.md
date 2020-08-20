@@ -60,3 +60,6 @@ AWS_Ansible/
 └── playbook.yml
 ```
 
+Continue this on weekend using this [Link](https://medium.com/datadriveninvestor/devops-using-ansible-to-provision-aws-ec2-instances-3d70a1cb155f)
+
+In Vim, when you wanna exit press `Shift + :` Then type `:x` to save and exit.

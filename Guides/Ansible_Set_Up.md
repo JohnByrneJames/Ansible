@@ -197,11 +197,94 @@ Playbooks are written in the scripting language **YAML** or **YML**, a very popu
 Lets create our first playbook to get nginx up on our web VM.
 
 ```bash
-# Create file
-Nano install_playbook.yml
+# Create app playbook
+touch install_nginx.yml 
 ```
 
 One thing to keep in mind with playbooks, is that they are rather unforgiving when it comes to syntax. The indentation is crucial or it will throw errors. A **Tip** is to always use spaces and never tabs as they aren't recognised in this langauge.
+
+Before we continue lets create two more playbooks, one for provisioning a database running `MongoDB` and another to add an environment variable into our `App` VM so it can remember the Databases location when we try to open the posts part of it.
+
+```bash
+# Create app playbook
+touch install_mongo.yml 
+
+# Create app playbook
+touch env_var_in_app.yml 
+```
+
+## Step 6
+
+Now lets populate our ansible playbooks, starting with the app.
+
+```bash
+# Make sure your in the ansible directory
+cd /etc/ansible
+
+# nano into the install_nginx.yml playbook
+nano install_nginx.yml
+```
+
+_**Explanation of Playbook syntax**_
+
+_This section is only necessary if you are interested in knowing how the playbook is formatted/ functions_
+
+The top of the playbook looks like this
+
+```yaml
+# Tells the interpreter it is YAML/YML file
+---
+
+ # Define hosts to target, can put all here too
+-hosts: <name_of_VM>, <name_of_2nd_VM>
+ 
+ # Gather facts of the VM, such as free space, ip ECT..
+ gather facts: yes
+
+ # Gives the playbook provisioning root permissions
+ become: yes  
+```
+
+The rest of the playbook contains steps/ tasks that are carried out to perform the task. Now go into each of these playbooks we have created and copy and paste in the contents of the .yml files in your directory. 
+
+_**Make sure the file has `---` at the top of the file!**_
+
+1. `Nano install_nginx.yml`, paste in contents, save
+2. `Nano install_mongo.yml`, paste in contents, save
+3. `Nano env_var_in_app.yml`, paste in contents, save
+
+Now we have successfully set up these playbooks and they will do the rest to set up our web app and corresponding database, allowing us to access the app which will be running on the ip address of the app's VM. _**192.168.33.10**_
+
+Now lets run these playbooks in the order I show below.
+
+**1.** To run the playbook, we need to run a certain command starting with the keyword `ansible-playbook`. Lets create and deploy the variables inside our app machine first of all...
+
+```bash
+# Run playbook <name_of_playbook> [-b to run in root]
+ansible-playbook env_var_in_app.yml -b
+```
+
+**2.** Run the playbook to create the database, this will download the database and run it so we can access it through our `Node App`.
+
+```bash
+ansible-playbook install_mongo.yml -b
+```
+
+**3.** Finally now we have a database to connect to and the address to contact the database on in our environment variables inside the web app, we can install NGINX with a reverse proxy and up the node app so we can view it in our browser!!
+
+```bash
+ansible-play install_nginx.yml -b
+```
+
+_**Now the steps that these playbooks take are quite in-depth and could take a while to figure out, but you do not need to worry about that as the playbooks are taking care of everything for us!!**_
+
+Now if you go to this [URL](http://192.168.33.10) you should see your web app running with my custom edited HTML and also to Posts you will see the database contents on a [blog](http://192.168.33.10/posts) type page.
+
+![Gif_of_running_playbooks](../Images/GifOfPlaybooking.gif)
+
+___
+
+_**Below are some useful Commands I used for myself when setting up this instance**_
 
 ## ~~ planning steps ~~
 
